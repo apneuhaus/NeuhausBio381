@@ -11,6 +11,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Week 1 Homework
+### Week 1 Homework
 [Typora Document](Homework1_Neuhaus.html)
 
