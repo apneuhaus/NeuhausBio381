@@ -4,7 +4,7 @@ author: "Alyssa Neuhaus"
 date: "1/22/2020"
 output: 
   html_document: 
-    theme: flatly
+    theme: sandstone
 ---
 
 ```{r setup, include=FALSE}
