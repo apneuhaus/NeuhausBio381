@@ -15,5 +15,5 @@ knitr::opts_chunk$set(echo = TRUE)
 [Typora Document](Homework01.html)
 
 ### Week 3 (1/29)
-[Rmd Document](hw3.Rmd) 
+[Rmd Document](hw3.html) 
 
