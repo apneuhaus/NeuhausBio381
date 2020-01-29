@@ -1,0 +1,60 @@
+---
+title: "Homework 3"
+author: "Alyssa Neuhaus"
+date: "1/29/2020"
+output: html_document
+---
+1.  
+```
+FIND: \t*
+REPLACE: ,
+```
+This replaces tabs with a comma
+
+
+2. 
+```
+FIND: (\w+), (\w+), (\w+ .*)
+REPLACE: \2 \1, (\3)
+```
+This moved second group of words to the front, followed by the first group, following by a comma and the university name in parentheses
+
+
+3. 
+```
+FIND: (.mp3 )
+REPLACE: .mp3\n
+``` 
+Things in parenthesis get included into the final replace, slash n indicates a single line break
+
+
+4. 
+```
+FIND: (\d{4}) (\w+ .*)\.
+REPLACE: \2_\1.
+```
+Slash d indicates digits, the squiggly parentheses mean that only the first four numbers are grabbed
+
+
+5. 
+```
+FIND: (\w)\w+,(\w+),\d{2}.\d,(\d+)
+REPLACE: \1_\2,\3
+```
+The slash w in parentheses grabs the first character, and the slash w plus not in paranthesis disregards all the rest of the characters in that section
+
+
+6. 
+```
+FIND: (\w)\w+,(\w{4})\w+,\d+.\d,(\d+)
+REPLACE: \1_\2,\3
+```
+The slash d's grabbed the digits, and I kept the numbers I wanted to by putting parentheses around the d plus
+
+
+7. 
+```
+FIND: (\w{3})\w+,(\w{3})\w+,(\d+.\d),(\d+)
+REPLACE: \1\2, \4, \3
+```
+The 3 in the squiggles kept the first 3 letters of the first word, and first three of the second word. Then I arranged the order using a backslash and the number of the group. 
