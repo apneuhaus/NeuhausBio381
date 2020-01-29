@@ -10,7 +10,9 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 ### Week 1 Homework
 [Typora Document](Homework01.html)
+
+### Week 3 Homework
+[Typora Document](Homework03.html) 
 
