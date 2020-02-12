@@ -1,0 +1,161 @@
+---
+title: "Homework05"
+author: "Alyssa Neuhaus"
+date: "2/12/2020"
+output: html_document
+---
+# Question 1:
+
+Assign to the variable n_dims a single random integer between 3 and 10:
+```{r}
+n_dims <- sample(3:10, 1)
+print(n_dims)
+```
+
+Create a vector of consequtive integers from 1 to n_dims^2:
+```{r}
+vec <- c(1:(n_dims)^{2})
+print(vec)
+```
+
+Use the sample function to randomly reshuffle these values:
+```{r}
+sample(vec,((n_dims)^{2}))
+```
+
+Create a square matrix with these elements:
+```{r}
+m <-matrix(vec, nrow=n_dims, ncol=n_dims)
+```
+
+Print matrix:
+```{r}
+print(m)
+```
+
+Find function in r to transpose the matrix:
+```{r}
+m2 <- t(m)
+```
+
+Print transposed matrix:
+```{r}
+print(m2)
+```
+Matrix is now filled from left to right rather than from up to down. 
+
+Calculate the sum and the mean of the element in the first row and the last row:
+```{r}
+FirstAndLastSum <-sum((m[,1]),(m[n_dims,]))
+FirstAndLastSum
+
+FirstAndLastMean <- FirstAndLastSum/n_dims
+FirstAndLastMean
+```
+
+Use the eigen() function in matrix
+```{r}
+e <- eigen(m)
+print(e)
+```
+The $values are exponential numbers, and the $vectors are decimels less than one. 
+
+Figure out type:
+```{r}
+typeof(e$values)
+```
+```{r}
+typeof(e$vectors)
+```
+
+# Question 2. 
+Create a 4x4 matrix with random uniform numbers:
+```{r}
+my_matrix <- matrix(data=runif(16),
+                    nrow=4,ncol=4)
+print(my_matrix)
+```
+
+Set up a vector of random values and then apply an inequality to it:
+```{r}
+my_logical01 <- runif(100)
+my_logical <- runif(100) < 0.5
+print(my_logical)
+```
+
+26-element vector of all lower case letters in random order
+```{r}
+my_letters <- letters
+my_letters <- sample(my_letters)
+print(my_letters)
+```
+
+Create new list, which has the element [2,2] from the matrix, the second element of the logical vector, and the second element of the letters vector
+```{r}
+newList <- c(m[2,2],my_logical[2],my_letters[2])
+print(newList)
+```
+
+Use typeof() function to confirm the underlying data types of each component in this list:
+```{r}
+i <- typeof(m)
+print(i)
+```
+
+```{r}
+l <-typeof(my_logical)
+print(l)
+```
+
+```{r}
+c <-typeof(my_letters)
+print(c)
+```
+
+Combine underlying elements from new list into single atomic vector:
+```{r}
+elements <- c(i,l,c)
+print(elements)
+```
+
+What is the data type of this vector?
+```{r}
+typeof(elements)
+```
+
+# Question 3. 
+
+Create a data frame with two variables and 26 cases:
+```{r}
+my_unis <- runif(26, min=0, max=10)
+my_letters <- sample(LETTERS)
+d_frame <- data.frame(my_unis,my_letters,stringsAsFactors = FALSE)
+print(d_frame)
+```
+
+For the first variable, use a single line of code in R to select 4 random rows and replace the numerical values in those rows with NA
+```{r} 
+d_frame[sample(x=length(my_unis),size=4),1] <- NA
+print(d_frame)
+```
+
+For the first variable, write a single line of R code to identify which rows have the missing values:
+```{r}
+which(!complete.cases(d_frame$my_unis))
+```
+
+For the second variable, sort it in alphabetical order:
+```{r}
+d_frame[order(d_frame$my_letters),]
+```
+
+Calculate the column mean for the first variable: 
+```{r}
+mean(my_unis)
+```
+
+
+
+
+
+
