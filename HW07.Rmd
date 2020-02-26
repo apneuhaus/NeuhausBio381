@@ -1,0 +1,114 @@
+---
+title: "Homework07"
+author: "Alyssa Neuhaus"
+date: "2/26/2020"
+output: html_document
+---
+## Part I: Assume data follows a normal distribution and generate a useful graph for the data
+
+#### My hypothesis states that individuals with low blood mercury levels will be less likely to be infected with malaria, while individuals with high blood mercury levels will be more likely to be infected with malaria. 
+##### A logistic regression will be used because the x-variable (blood mercury level) is continuous, and the y-variable (infection status) is categorical. 
+
+```{r}
+Blood_Hg_Level <- sort(rnorm(n=1000,mean=0.7,sd=0.2)) 
+head(Blood_Hg_Level)
+Infection_Status <- sample(rep(c(1,0),each=500),prob=seq_len(1000))
+head(Infection_Status)
+l_reg_data <- data.frame(Blood_Hg_Level,Infection_Status)
+head(l_reg_data)
+```
+
+```{r}
+l_reg_model <- glm(Infection_Status~Blood_Hg_Level,
+                   data=l_reg_data,
+                   family=binomial(link=logit))
+summary(l_reg_model)$coefficients
+```
+
+##### This logistic regression yields a statistically significant p-value, which shows that there is a relationship between the blood mercury level of an individual and the infection status. Those with malarial infections have higher blood mercury levels.  
+```{r}
+library(ggplot2)
+lreg_plot <- ggplot(data=l_reg_data,
+                    aes(x=Blood_Hg_Level,y=Infection_Status)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+print(lreg_plot)
+```
+
+
+## Part II: Adjust the parameters of the different groups 
+
+### Changing the sample size
+##### Given the sample sizes I have chosen, the group sizes can be as small as 60 individuals to yield a statistically significant p-value. There does not seem to be an effect size in my data because the categorical variable does not have a mean or variance (the two categories are 1=yes and 0=no). 
+```{r}
+Blood_Hg_Level <- sort(rnorm(n=60,mean=0.7,sd=0.02)) 
+Infection_Status <- sample(rep(c(1,0),each=30),prob=seq_len(60))
+l_reg_data <- data.frame(Blood_Hg_Level,Infection_Status)
+
+l_reg_model <- glm(Infection_Status~Blood_Hg_Level,
+                   data=l_reg_data,
+                   family=binomial(link=logit))
+print(summary(l_reg_model)$coefficients)
+```
+```{r}
+lreg_plot <- ggplot(data=l_reg_data,
+                    aes(x=Blood_Hg_Level,y=Infection_Status)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+print(lreg_plot)
+```
+
+### Changing the mean and standard deviation
+##### Changing the mean of the x-variable does not have an effect on the p-value. The standard deviation also does not seem to affect the p-value. This could be because all of the continuous data is adusting to the mean/variance accordingly and the categorical data is still plotted in the same pattern. 
+```{r}
+Blood_Hg_Level <- sort(rnorm(n=60,mean=30,sd=20)) 
+Infection_Status <- sample(rep(c(1,0),each=60),prob=seq_len(120))
+l_reg_data <- data.frame(Blood_Hg_Level,Infection_Status)
+
+l_reg_model <- glm(Infection_Status~Blood_Hg_Level,
+                   data=l_reg_data,
+                   family=binomial(link=logit))
+summary(l_reg_model)$coefficients
+```
+```{r}
+lreg_plot <- ggplot(data=l_reg_data,
+                    aes(x=Blood_Hg_Level,y=Infection_Status)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+print(lreg_plot)
+```
+
+### Changing the weight of the y-variable
+##### When the y-variable is not weighted, and 0 and 1 (not infected and infected, respectively) are both equally probable, there is no significant difference between the variables (p>0.05). The standard error is also greatly increased for the y-intercept. This seems to have the largest effect on the data output, as the mean and standard deviation of the x-variable to not have an impact. 
+```{r}
+Blood_Hg_Level <- sort(rnorm(n=60,mean=30,sd=0.02)) 
+Infection_Status <- sample(rep(c(1,0),each=60),prob=NULL)
+l_reg_data <- data.frame(Blood_Hg_Level,Infection_Status)
+
+l_reg_model <- glm(Infection_Status~Blood_Hg_Level,
+                   data=l_reg_data,
+                   family=binomial(link=logit))
+summary(l_reg_model)$coefficients
+```
+```{r}
+lreg_plot <- ggplot(data=l_reg_data,
+                    aes(x=Blood_Hg_Level,y=Infection_Status)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+print(lreg_plot)
+```
+
+
+
+
+
+
+
+
+
+
+

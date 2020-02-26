@@ -30,3 +30,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ##### February 19
 [Rmd Document](Homework06.html) 
 
+### Week 7
+##### February 26
+[Rmd Document](HW07.html)
+
