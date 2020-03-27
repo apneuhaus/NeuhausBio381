@@ -1,0 +1,168 @@
+---
+title: "Homework09"
+author: "Alyssa Neuhaus"
+date: "3/25/2020"
+output: html_document
+---
+## Creating Functions
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION get_data
+# description: get data for logistic regression plot 
+# inputs: x and y variables
+# outputs: data frame 
+######################################################
+get_data <- function(fileName=NULL) {
+if(is.null(fileName)) {
+  dataFrame <- data.frame(varA=sort(rnorm(n=1000,mean=0.7,sd=0.2)),
+  varB=sample(rep(c(1,0),each=500),prob=seq_len(1000)))
+} else  {
+  dataFrame <- read.table(file=fileName,
+                          header=TRUE,
+                          sep=",",
+                          stringsAsFactors=FALSE)
+}
+
+return(dataFrame)
+
+} # end of get_data
+#-----------------------------------------------------
+```
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION fit_logreg
+# description: fits a normal logistic regression model
+# inputs: x and y vectors 
+# outputs: entire model summary 
+######################################################
+fit_logreg <- function(xVar=sort(rnorm(n=1000,mean=0.7,sd=0.2)),
+                       yVar=sample(rep(c(1,0),each=500),prob=seq_len(1000))) {
+dataFrame <- data.frame(xVar,yVar)
+logregModel <- glm(yVar~xVar,data=dataFrame)
+
+return(summary(logregModel))
+       } 
+#-----------------------------------------------------
+```
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION GraphResults
+# description: graph data as logistic regression
+# inputs: x and y vectors
+# outputs: log reg plot
+######################################################
+GraphResults <- function(xVar=sort(rnorm(n=1000,mean=0.7,sd=0.2)),
+                       yVar=sample(rep(c(1,0),each=500),prob=seq_len(1000))) {
+  dataFrame <- data.frame(xVar,yVar)
+  p1 <- ggplot(data=dataFrame,
+                    aes(x=xVar,y=yVar)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+
+return(print(p1))
+
+} # end of GraphResults
+#-----------------------------------------------------
+```
+
+## Program Body
+#### Linking functions to generate logistic regression plot 
+```{r}
+GraphResults(xVar=sort(rnorm(n=1000,mean=0.7,sd=0.2)),
+                       yVar=sample(rep(c(1,0),each=500),prob=seq_len(1000)))
+```
+
+## Modifying program to create a different set of random variables
+
+#### Modify Functions to create a different set of random variables:
+```{r}
+# ----------------------------------------------------
+# FUNCTION get_data2
+# description: get data for logistic regression plot 
+# inputs: x and y variables
+# outputs: data frame 
+######################################################
+get_data2 <- function(fileName=NULL) {
+if(is.null(fileName)) {
+  dataFrame <- data.frame(varA=sort(n=10,mean=0.4,sd=0.5),
+  varB=sample(rep(c(1,0),each=5),prob=seq_len(10)))
+} else  {
+  dataFrame <- read.table(file=fileName,
+                          header=TRUE,
+                          sep=",",
+                          stringsAsFactors=FALSE)
+}
+
+return(dataFrame)
+
+} # end of get_data
+#-----------------------------------------------------
+```
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION fit_logreg2
+# description: fits a normal logistic regression model
+# inputs: x and y vectors 
+# outputs: entire model summary 
+######################################################
+fit_logreg2 <- function(xVar=sort(rnorm(n=10,mean=0.4,sd=0.5)),
+                       yVar=sample(rep(c(1,0),each=5),prob=seq_len(10))) {
+dataFrame <- data.frame(xVar,yVar)
+logregModel <- glm(yVar~xVar,data=dataFrame)
+
+return(summary(logregModel))
+       } 
+#-----------------------------------------------------
+```
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION GraphResults2
+# description: graph data as logistic regression
+# inputs: x and y vectors
+# outputs: log reg plot
+######################################################
+GraphResults2 <- function(data=dataFrame) {
+  xVar=sort(rnorm(n=10,mean=0.4,sd=0.5))
+  yVar=sample(rep(c(1,0),each=5),prob=seq_len(10))
+  dataFrame <- data.frame(xVar,yVar)
+  p2 <- ggplot(data=dataFrame,
+                    aes(x=xVar,y=yVar)) +
+                    geom_point() +
+                    stat_smooth(method=glm,
+                                method.args=list(family=binomial))
+return(print(p2))
+
+} # end of GraphResults
+#-----------------------------------------------------
+```
+
+## Program Body: generate logistic regression plots from a new set variables 
+```{r}
+GraphResults2(data=get_data2(fileName="NY_Hg_Data.csv")) # using NY dataset
+GraphResults2(data=get_data2(fileName=NULL)) # random variables
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
