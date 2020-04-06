@@ -1,0 +1,166 @@
+---
+title: "Homework10"
+author: "Alyssa Neuhaus"
+date: "4/6/2020"
+output: html_document
+---
+
+# For Loops and Randomization Tests
+
+### 1. Using a for loop, write a function to calculate the number of zeroes in a numeric vector. Before entering the loop, set up a counter variable counter <- 0. Inside the loop, add 1 to counter each time you have a zero in the matrix. Finally, use return(counter) for the output.
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION calculate_zeros
+# description: calculates the number of zeros in a numeric vector
+# inputs: numeric vector
+# outputs: number of zeros in vector 
+######################################################
+calculate_zeros <- function(vec) {
+  counter <- 0
+  
+  for(i in 1:length(vec)) {
+    if(vec[i] == 0) {
+      counter <- counter + 1
+    } else {
+  counter <- counter + 0
+  }
+}
+
+return(counter)
+}
+
+# end of calculate_zeros
+#-----------------------------------------------------
+
+vec <- sample(0:1, 100, replace = TRUE)
+calculate_zeros(vec)
+
+```
+
+### 2. Use subsetting instead of a loop to rewrite the function as a single line of code.
+
+``` {r}
+# ----------------------------------------------------
+# FUNCTION calculate_zeros_subset
+# description: calculates the number of zeros in a numeric vector
+# inputs: numeric vector
+# outputs: number of zeros in vector 
+######################################################
+calculate_zeros_subset <- function(vec) {
+  
+  sum(vec == 0)
+}
+
+# end of calculate_zeros_subset
+#-----------------------------------------------------
+
+calculate_zeros_subset(vec)
+
+```
+
+### 3. Write a function that takes as input two integers representing the number of rows and columns in a matrix. The output is a matrix of these dimensions in which each element is the product of the row number x the column number.
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION product_matrix
+# description: creates matrix in which each element is the product of the row number x column number
+# inputs: two integers representing the number of rows and columns in a matrix
+# outputs: matrix 
+######################################################
+product_matrix <- function(nrow = sample(1:10,1),
+                           ncol = sample(1:10,1 )) {
+ m <- matrix(nrow=nrow, ncol=ncol)
+ for(i in 1:nrow(m)) {
+   for(j in 1:ncol(m)) {
+     m[i,j] <- i*j
+   }
+}
+  return(m)
+}
+
+# end of product_matrix
+#-----------------------------------------------------
+
+product_matrix(nrow=8,ncol=8)
+```
+
+### 4. Use the code from the upcoming April 2nd lecture (Randomization Tests) to design and conduct a randomization test for some of your own data. You will need to modify the functions that read in the data, calculate the metric, and randomize the data. Once those are set up, the program should run correctly calling your new functions. Also, to make your analysis fully repeatable, make sure you set the random number seed at the beginning (use either set.seed() in base R, or char2seed in the TeachingDemos package
+
+```{r} 
+library(ggplot2)
+```
+
+```{r}
+set.seed(100)
+
+# ----------------------------------------------------
+# FUNCTION read_data
+# description: read data for analysis
+# inputs: my Hg data
+# outputs: dataframe 
+######################################################
+read_data <- function(x=NULL) {
+
+if(is.null(x)) {
+  infection_status <- rep(c(0:1),100)
+  Blood_Hg <- rnorm(mean=0.4, n=100, sd=0.2)
+  data_frame <- data.frame(infection_status,Blood_Hg)
+}
+return(data_frame)
+}
+
+# end of read_data
+#-----------------------------------------------------
+# ----------------------------------------------------
+# FUNCTION calculate_stuff
+# description: generate ANOVA on groups
+# inputs: 2 column data frame (data_frame)
+# outputs: anova linear model
+######################################################
+
+calculate_stuff <- function(data_frame=NULL) {
+ infection_status <- rep(c(0:1),100)
+  Blood_Hg <- rnorm(mean=0.4, n=100, sd=0.2)
+  data_frame <- data.frame(infection_status,Blood_Hg)
+  aov <- aov(infection_status ~ Blood_Hg, data=data_frame)
+  return(aov)
+
+} # end of calculate_stuff
+#-----------------------------------------------------
+
+# ----------------------------------------------------
+# FUNCTION shuffleData
+# description: shuffle data frame
+# inputs: data_frame
+# outputs: shuffled data_frame
+######################################################
+shuffleData <- function(data_frame, Blood_Hg = "Blood_Hg") {
+
+data_frame[,Blood_Hg] <- sample(data_frame[,Blood_Hg])
+return(data_frame)
+
+
+} # end of shuffleData
+#-----------------------------------------------------
+
+```
+
+### 5. For comparison, calculate in R the standard statistical analysis you would use with these data. How does the p-value compare for the standard test versus the p value you estimated from your randomization test? If the p values seem very different, run the program again with a different starting seed (and/or increase the number of replications in your randomization test). If there are persistent differences in the p value of the standard test versus your randomization, what do you think is responsible for this difference?
+
+```{r}
+data_Hg <- shuffleData(read_data())
+logreg <- glm(infection_status~Blood_Hg,
+              data=read_data())
+logreg_sum <- summary(logreg)
+pval <- logreg_sum$coefficients
+pval
+```
+
+#### The p-value of my original dataset is similar to the p-value acquired from this randomization test. This p-value suggests that we can not reject the null hypothesis and there is no effect of blood Hg on the infection status (p=0.8). When the groups are shuffled, there is no longer a treatment effect. However, there was no significant correlation between the variables in my original dataset either. 
+
+
+
+
+
+
