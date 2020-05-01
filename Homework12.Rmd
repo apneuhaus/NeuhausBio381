@@ -1,0 +1,71 @@
+---
+title: "Homework12"
+author: "Alyssa Neuhaus"
+date: "4/30/2020"
+output: html_document
+---
+
+For this exerise, use your newly-developed ggplot chops to create some nice graphs from your own data (If you do not have a good data frame to use for graphics, use one of the many built-in data frames from R (other than mpg, which we are using in class)). Experiment with different themes, theme base sizes, aesthetics, mappings, and faceting. When you are finished, try exporting them to high quality pdfs, jpgs, eps files, or other formats that you would use for submission to a journal.
+
+```{r}
+library(ggplot2)
+library(ggthemes)
+library(patchwork)
+library(TeachingDemos)
+```
+
+##### Create plots using lineage data for Saltmarsh Sparrows 
+
+bar plot of the number of each lineage found:
+```{r}
+z <- read.table("SALS_Lineages.csv",header=TRUE,sep=",", stringsAsFactors=FALSE)
+g1 <- ggplot(data=z,
+             mapping=aes(x=Lineage,fill=I("darkolivegreen4"),color=I("black"))) +              geom_bar(stat="count") + 
+             theme(legend.position="none")
+print(g1)
+```
+
+
+Bar plots for the number of individuals infected with each lineage (top) and the number of individuals infected at each site (bottom)
+```{r}
+g2 <- ggplot(data=z,
+             mapping=aes(x=Site,fill=I("goldenrod"),color=I("black"))) +              geom_bar(stat="count") + 
+             theme(legend.position="none")
+print(g2)
+g1/g2 + (ggtitle("Number of infected individuals per lineage (top) and per site (bottom)"))
+```
+
+Stacked bar plot
+```{r}
+g3 <- ggplot() + 
+  geom_bar(aes(x=Site,y=Lineage, fill=Lineage),
+           data=z,
+           stat="identity") +
+  ggtitle("Lineages present at each site") 
+print(g3)
+```
+
+
+Create plots using blood mercury data and infection status data
+```{r}
+d <- read.table("MercuryData.csv",header=TRUE,sep=",", stringsAsFactors=FALSE)
+g4 <- ggplot(data=d,mapping=aes(x=BloodHg,y=InfectionStatus)) +
+  geom_point() + geom_smooth()
+print(g4)
+```
+
+```{r}
+g5<- ggplot(data=d, mapping=(aes(x=BloodHg,y=InfectionStatus,color=Lineage))) + 
+  geom_point(size=3) + geomsmooth()
+g5 + labs(title="Correlation between Blood Hg and Infection Status", 
+caption = "Logistic regression of blood mercury levels and the infection status for each individual sampled. The parasite lineages found in the 
+infected individuals are indicated by color; each color corresponds to a different lineage (key on right)")
+
+
+```
+
+
+use ggsave(filename="",plot="",device=pdf) to save plot as pdf
+
+
+

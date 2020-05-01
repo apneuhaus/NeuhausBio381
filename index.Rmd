@@ -7,45 +7,50 @@ output:
     theme: sandstone
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-### Week 1 
+
+### Homework 1 
 ##### January 22
 [Typora Document](Homework01.html)
 
-### Week 3 
+### Homework 3 
 ##### January 29
 [Rmd Document](hw3.html) 
 
-### Week 4
+### Homework 4
 ##### February 5
 [Rmd Document](Homework04.html)
 
-### Week 5
+### Homework 5
 ##### February 12
 [Rmd Document](Homework05.html) 
 
-### Week 6
+### Homework 6
 ##### February 19
 [Rmd Document](Homework06.html) 
 
-### Week 7
+### Homework 7
 ##### February 26
 [Rmd Document](HW07.html)
 
-### Week 8 
+### Homework 8 
 ##### March 05
 [RMD Document](Homework08.html) 
 
-### Week 9 
+### Homework 9 
 ##### March 27
 [RMD Document](Homework09.html)
 
-### Week 10
+### Homework 10
 ##### April 1
 [RMD Document](Homework10.html)
 
+### Homework 11
+##### April 24
+[RMD Document](Homework11.html)
+
+### Homework 12
+##### April 30
+[RMD Document](Homework12.html)
 
 
 

@@ -1,0 +1,96 @@
+---
+title: "Homework11"
+author: "Alyssa Neuhaus"
+date: "4/24/2020"
+output: html_document
+---
+Repeat the exercise from the Batch Processing Lecture (7th April), but do it using real data sets rather than purely simulated. Check with folks in your lab to see if there are multiple data sets available for analysis. Stick to simple data analyses and graphics, but try to set it up as a batch process that will work on multiple files and save summary results to a common file.
+
+```{r}
+# ----------------------------------------------------
+# FUNCTION log_reg
+# description: fit log reg model and extract model coefficients
+# inputs: dataframe with x and y variables
+# outputs: slope and p-val
+######################################################
+log_reg <- function(data=NULL) {
+    if (is.null(data)){
+      x_var <- runif(100)
+      y_var <- runif(100)
+      d <- data.frame(x_var,y_var)
+    } 
+  log <- glm(data=data,data[,2]~data[,1])
+  log <- summary(.)
+  stats_list <- list(Slope=.$coefficients[2,1],
+                     pVal=.$coefficients[2,4])
+  
+
+return(stats_list)
+# function body 
+
+} # end of lin_reg
+#-----------------------------------------------------
+```
+
+Data output files consist of two mercury data files for Saltmarsh Sparrows in 2013 and 2017 collected by BRI
+
+```{r}
+library(TeachingDemos)
+```
+
+```{r}
+# global variables
+file_folder <- "Hon_Thesis_R/"
+n_files <- 2
+file_output <- "Hg_DataFiles"
+file_names <- list.files(path=file_folder)
+# make data frame to hold summary file stats
+id <- seq_along(file_names)
+file_name <- file_names
+slope <- rep(NA,length(file_name))
+p_val <- rep(NA, length(file_name))
+
+stats_out <- data.frame(id, file_name, slope, p_val)
+
+# batch process by looping through individual files
+for (i in seq_along(file_names)){
+  data <- read.table(file=paste(file_folder,file_names[i], sep=""),
+                     sep=",",
+                     header=TRUE)
+  data_clean <- data[complete.cases(data),] # subset for clean data cases
+  reg <- reg_states(data_clean) # get data for clean cases
+  stats_out[i,3:5] <- unlist(reg)
+}
+
+# set up output file, add time stamp and metadata
+write.table(cat("summary stats for",
+                "linear models batch processing",
+                "\n",
+                "# timestamp: ",
+                as.character(Sys.time()),
+                "\n",
+                file=file_output,
+                row.names="",
+                col.names="",
+                sep=""))
+```
+
+```{r}
+write.table(x=stats_out,
+            file=file_output,
+            row.names=TRUE,
+            col.names=TRUE,
+            sep=",",
+            append=TRUE)
+```
+                
+
+
+
+
+
+
+
+
+
+```
